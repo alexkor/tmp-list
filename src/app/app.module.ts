@@ -1,13 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppComponent, AppColumnDirective, AppListComponent } from './app.component';
+import { AppComponent, ColumnDirective, AppListComponent } from './app.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppColumnDirective,
-    AppListComponent
+    ColumnDirective,
+    AppListComponent,
   ],
   imports: [
     BrowserModule

@@ -1,11 +1,10 @@
 import { Component, Directive, Input, ContentChildren, QueryList } from '@angular/core';
-import { clearResolutionOfComponentResourcesQueue } from '@angular/core/src/metadata/resource_loading';
-import { groupBy } from 'rxjs/internal/operators/groupBy';
+import { GroupedObservable } from 'rxjs';
 
 @Directive({
   selector: 'app-column',
 })
-export class AppColumnDirective {
+export class ColumnDirective {
   @Input() name;
 }
 
@@ -21,7 +20,7 @@ export class AppComponent {
   templateUrl: './appList.component.html',
 })
 export class AppListComponent {
-  @ContentChildren(AppColumnDirective) columns !: QueryList<AppColumnDirective>;
+  @ContentChildren(ColumnDirective) columns !: QueryList<ColumnDirective>;
   inputItems = [
     {
       id: 1,
@@ -88,7 +87,7 @@ export class AppListComponent {
     }
   ];
   get items() {
-    return this.inputItems;//.groupBy("domain");
+    return this.inputItems.groupBy("domain").groupBy("owner");
   }
 }
 
