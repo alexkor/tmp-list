@@ -1,5 +1,4 @@
 import { Component, Directive, Input, ContentChildren, QueryList } from '@angular/core';
-import { GroupedObservable } from 'rxjs';
 
 @Directive({
   selector: 'app-column',
@@ -20,7 +19,8 @@ export class AppComponent {
   templateUrl: './appList.component.html',
 })
 export class AppListComponent {
-  @ContentChildren(ColumnDirective) columns !: QueryList<ColumnDirective>;
+  @ContentChildren(ColumnDirective) columns: QueryList<ColumnDirective>;
+  columnValues = {};
   inputItems = [
     {
       id: 1,
@@ -86,8 +86,21 @@ export class AppListComponent {
       owner: "owner1"
     }
   ];
+  ngAfterContentInit() {
+    this.columns.forEach(col =>
+      this.columnValues[col.name] = this.inputItems.map(item => item[col.name]).filter((x, i, a) => a.indexOf(x) == i));
+  }
   get items() {
-    return this.inputItems.groupBy("domain").groupBy("owner");
+    return this.filteredItems.groupBy("domain").groupBy("owner");
+  }
+  get filteredItems() {
+    return this.inputItems.filter(item =>
+      this.columns
+        .map(col => col)
+        .every(col => typeof (this[col.name]) == "undefined" || item[col.name] == this[col.name]));
+  }
+  getColumnValues(name) {
+    return this.columnValues[name];
   }
 }
 

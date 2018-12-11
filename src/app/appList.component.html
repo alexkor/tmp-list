@@ -1,36 +1,31 @@
-<table>
-  <tr>
-    <th *ngFor="let col of columns">{{ col.name }}</th>
-  </tr>
-  <ng-template #tList let-list>
-    <ng-container *ngFor="let item of list">
-      <ng-container *ngIf="item.key && item.items; else tItem">
-        <tr>
-          <td [attr.colspan]="columns.length">{{ item.key }}</td>
-        </tr>
-        <ng-container *ngTemplateOutlet="tList; context: { $implicit: item.items }"></ng-container>
+<div>
+  <select *ngFor="let column of columns" class="form-control" [(ngModel)]="this[column.name]">
+    <option [ngValue]="undefined" selected>select {{ column.name }}</option>
+    <option *ngFor="let value of getColumnValues(column.name)" [value]="value">{{ value }}</option>
+  </select>
+</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th *ngFor="let col of columns">{{ col.name }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template #tList let-list>
+      <ng-container *ngFor="let item of list">
+        <ng-container *ngIf="item.key && item.items; else tItem">
+          <tr>
+            <td [attr.colspan]="columns.length">{{ item.key }}</td>
+          </tr>
+          <ng-container *ngTemplateOutlet="tList; context: { $implicit: item.items }"></ng-container>
+        </ng-container>
+        <ng-template #tItem>
+          <tr>
+            <td *ngFor="let col of columns">{{ item[col.name] }}</td>
+          </tr>
+        </ng-template>
       </ng-container>
-      <ng-template #tItem>
-        <tr>
-          <td *ngFor="let col of columns">{{ item[col.name] }}</td>
-        </tr>
-      </ng-template>
-    </ng-container>
-  </ng-template>
-  <ng-container *ngTemplateOutlet="tList; context: { $implicit: items }"></ng-container>
-
-  <!-- <ng-container *ngFor="let item of items">
-    <ng-container *ngIf="item.key && item.items; else tItem">
-      <tr>
-        <td [attr.colspan]="columns.length">{{ item.key }}</td>
-      </tr>
-      <ng-container *ngTemplateOutlet="tList; context: item.items"></ng-container>
-    </ng-container>
-    <ng-template #tItem>
-      <tr>
-        <td *ngFor="let col of columns">{{ item[col.name] }}</td>
-      </tr>
     </ng-template>
-  </ng-container> -->
-
+    <ng-container *ngTemplateOutlet="tList; context: { $implicit: items }"></ng-container>
+  </tbody>
 </table>

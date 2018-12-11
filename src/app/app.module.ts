@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent, ColumnDirective, AppListComponent } from './app.component';
 
 @NgModule({
@@ -10,7 +10,8 @@ import { AppComponent, ColumnDirective, AppListComponent } from './app.component
     AppListComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
